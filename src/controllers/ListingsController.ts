@@ -59,7 +59,7 @@ class ListingsController {
 
             if(results.length < 3) {
                 await this.twilioClient.messages.create({
-                    to: client,
+                    to: `whatsapp:${client}`,
                     from: agent,
                     contentSid: process.env.NO_RESULTS
                 });
@@ -69,7 +69,7 @@ class ListingsController {
 
                 console.log("sending carousel")
                 await this.twilioClient.messages.create({
-                    to: client,
+                    to: `whatsapp:${client}`,
                     from: agent,
                     contentSid: process.env.CAROUSEL,
                     contentVariables: JSON.stringify({
@@ -85,7 +85,7 @@ class ListingsController {
                 await new Promise((resolve) => setTimeout(resolve, 4000));
 
                 await this.twilioClient.messages.create({
-                    to: client,
+                    to: `whatsapp:${client}`,
                     from: agent,
                     contentSid: process.env.FINAL_MESSAGE
                 });
