@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import databaseInstance from '../config/Database';
 import twilio from 'twilio';
+import { errorMessage } from '../utils/responses';
 
 class ListingsController {
     private errorMessage: string;
@@ -8,7 +9,7 @@ class ListingsController {
     private twilioClient;
 
     constructor() {
-        this.errorMessage = "Unable to complete request at this time"
+        this.errorMessage = errorMessage;
         this.pool = null;
         this.twilioClient = twilio(process.env.TWILIO_ACCOUNT_ID, process.env.TWILIO_AUTH_TOKEN);
     }
