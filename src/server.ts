@@ -14,5 +14,4 @@ const server = () => {
     })
 }
 
-
 server();
