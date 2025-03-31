@@ -6,13 +6,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 const express_1 = __importDefault(require("express"));
+const listings_1 = __importDefault(require("../routes/listings"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
+app.use("/listings", listings_1.default);
 const server = () => {
     app.listen(3000, () => {
         console.log("Online");
     });
 };
-//ss
 server();
