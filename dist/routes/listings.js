@@ -27,4 +27,5 @@ router.use((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
 }));
 router.get("/read", controller.readRequest.bind(controller));
 router.post("/carousel", controller.CarouselRequest.bind(controller));
+router.post("/resource", controller.rescourceRequest.bind(controller));
 exports.default = router;

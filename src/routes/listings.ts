@@ -16,7 +16,8 @@ router.use(async(req: Request, res: Response, next: NextFunction): Promise<any> 
 })
 
 router.get("/read", controller.readRequest.bind(controller));
-router.post("/carousel", controller.CarouselRequest.bind(controller));
 
+router.post("/carousel", controller.CarouselRequest.bind(controller));
+router.post("/resource", controller.rescourceRequest.bind(controller));
 
 export default router;
