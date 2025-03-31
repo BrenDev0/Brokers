@@ -45,8 +45,8 @@ class ListingsController {
                 body: "Perfecto! permíteme un momento mientras busco tus resultados..."
             });
 
-            let priceL =  parseInt(priceLow);
-            let priceH =  parseInt(priceHigh);
+            let priceL = parseInt(priceLow);
+            let priceH = parseInt(priceHigh);
 
             let results
             const [data] = await dataPromise;
