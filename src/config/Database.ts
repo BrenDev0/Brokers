@@ -67,7 +67,7 @@ class Database {
           user: username,
           password: password,
           database: process.env.DB,
-          port: 5432,
+          port: 3306,
           ssl: {
             rejectUnauthorized: false,
           }
