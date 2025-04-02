@@ -106,6 +106,38 @@ class EventsController {
             return res.status(500).json({"message": this.errorMessage})
         }
     }
+
+    async deleteRequest(req: Request, res: Response): Promise<any> {
+        try {
+            const { col, identifyier } = req.body;
+
+            if(!col || !identifyier) {
+                return res.status(400).json({"message": "All fields required."})
+            }
+
+            if(col === "agent") {
+                const [rows] = await this.pool.query("DELETE FROM events WHERE agent = ?", [identifyier]);
+                if(rows.affectedRows === 0) {
+                    return res.status(404).json({"message": "No records found for deletion"})
+                }
+
+                return res.status(200).json({"message": "Delete successful"})
+
+            } else if(col === "eventDocument") {
+                const [rows] = await this.pool.query("DELETE FROM events WHERE event_document = ?", [identifyier]);
+                if(rows.affectedRows === 0) {
+                    return res.status(404).json({"message": "No records found for deletion"})
+                }
+
+                return res.status(200).json({"message": "Delete successful"})
+            } else {
+                return res.status(400).json({"message": "Invalid column"})
+            }
+        } catch (error) {
+            console.log(error);
+            return res.status(500).json({"message": this.errorMessage})
+        }
+    }
 }
 
 export default EventsController;

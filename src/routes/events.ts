@@ -21,5 +21,7 @@ router.post("/collection", controller.collectionRequest.bind(controller));
 router.post("/resource", controller.readRequest.bind(controller));
 router.post("/insert", controller.insertRequest.bind(controller));
 
+router.delete("/delete", controller.deleteRequest.bind(controller));
+
 
 export default router;
