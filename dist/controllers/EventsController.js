@@ -41,11 +41,6 @@ class EventsController {
             }
         });
     }
-    config() {
-        return __awaiter(this, void 0, void 0, function* () {
-            return;
-        });
-    }
     readRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
@@ -96,16 +91,17 @@ class EventsController {
     insertRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { eventType, agentId, source } = req.body;
+                const { eventType, eventTarget, eventDocument, agent } = req.body;
                 const sqlInsert = `
                 INSERT INTO events (
                     event_type,
-                    agent_id,
-                    source
+                    event_target,
+                    event_document,
+                    agent
                 )
-                VALUES (?, ?, ?)   
+                VALUES (?, ?, ?, ?)   
             `;
-                const [results] = yield this.pool.query(sqlInsert, [eventType, agentId, source]);
+                const [results] = yield this.pool.query(sqlInsert, [eventType, eventTarget, eventDocument, agent]);
                 if (results.affectedRows === 0) {
                     return res.status(500).json({ "message": "Error creating event." });
                 }

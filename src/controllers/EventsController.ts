@@ -31,9 +31,6 @@ class EventsController {
         }
     }
 
-    async config() {
-        return
-    }
     async readRequest(req: Request, res: Response): Promise<any> {
         try {
             const [results] = await this.pool.query("SELECT * FROM events");
@@ -85,18 +82,19 @@ class EventsController {
 
     async insertRequest(req: Request, res: Response): Promise<any> {
         try {
-            const { eventType, agentId, source } = req.body;
+            const { eventType, eventTarget, eventDocument, agent } = req.body;
 
             const sqlInsert = `
                 INSERT INTO events (
                     event_type,
-                    agent_id,
-                    source
+                    event_target,
+                    event_document,
+                    agent
                 )
-                VALUES (?, ?, ?)   
+                VALUES (?, ?, ?, ?)   
             `
 
-            const [results] = await this.pool.query(sqlInsert, [ eventType, agentId, source ]);
+            const [results] = await this.pool.query(sqlInsert, [ eventType, eventTarget, eventDocument, agent]);
 
             if(results.affectedRows === 0) {
                 return res.status(500).json({"message": "Error creating event."})

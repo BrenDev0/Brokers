@@ -1,6 +1,7 @@
 import express from 'express';
 import listingsRouter from './routes/listings';
 import eventsRouter from './routes/events';
+import EventsController from './controllers/EventsController';
 
 const app = express();
 
