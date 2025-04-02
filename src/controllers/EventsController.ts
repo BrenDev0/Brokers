@@ -30,7 +30,7 @@ class EventsController {
             throw error;
         }
     }
-
+    
     async readRequest(req: Request, res: Response): Promise<any> {
         try {
             const [results] = await this.pool.query("SELECT * FROM events");
