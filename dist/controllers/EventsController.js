@@ -60,7 +60,7 @@ class EventsController {
                 if (!agentId) {
                     return res.status(400).json({ "message": "All fields required." });
                 }
-                const [results] = yield this.pool.query("SELECT * FROM events WHERE agent_id = ?", [agentId]);
+                const [results] = yield this.pool.query("SELECT * FROM events WHERE agent = ?", [agentId]);
                 return res.status(200).json({ "data": results });
             }
             catch (error) {
