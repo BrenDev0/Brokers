@@ -30,7 +30,7 @@ class EventsController {
             throw error;
         }
     }
-    
+
     async readRequest(req: Request, res: Response): Promise<any> {
         try {
             const [results] = await this.pool.query("SELECT * FROM events");
@@ -44,13 +44,13 @@ class EventsController {
     
     async collectionRequest(req: Request, res: Response): Promise<any>{
         try {
-            const { agentId } = req.body;
+            const { agent } = req.body;
 
-            if(!agentId) {
+            if(!agent) {
                 return res.status(400).json({"message": "All fields required."})
             }
 
-            const [results] = await this.pool.query("SELECT * FROM events WHERE agent = ?", [agentId]);
+            const [results] = await this.pool.query("SELECT * FROM events WHERE agent = ?", [agent]);
 
             return res.status(200).json({"data": results});
         } catch (error) {

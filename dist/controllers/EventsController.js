@@ -56,11 +56,11 @@ class EventsController {
     collectionRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { agentId } = req.body;
-                if (!agentId) {
+                const { agent } = req.body;
+                if (!agent) {
                     return res.status(400).json({ "message": "All fields required." });
                 }
-                const [results] = yield this.pool.query("SELECT * FROM events WHERE agent = ?", [agentId]);
+                const [results] = yield this.pool.query("SELECT * FROM events WHERE agent = ?", [agent]);
                 return res.status(200).json({ "data": results });
             }
             catch (error) {
