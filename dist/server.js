@@ -16,6 +16,7 @@ const limiter = (0, express_rate_limit_1.default)({
     message: "Too many requests, please try again later.",
 });
 app.use(limiter);
+app.set('trust proxy', 1);
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use("/listings", listings_1.default);
