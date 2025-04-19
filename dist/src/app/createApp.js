@@ -6,8 +6,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
-const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
-const swagger_json_1 = __importDefault(require("../../swagger.json"));
 const createApp = () => {
     const app = (0, express_1.default)();
     app.use((0, helmet_1.default)());
@@ -20,7 +18,6 @@ const createApp = () => {
     app.set('trust proxy', 1);
     app.use(express_1.default.json());
     app.use(express_1.default.urlencoded({ extended: true }));
-    app.use('/docs/endpoints', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
     return app;
 };
 exports.default = createApp;

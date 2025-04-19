@@ -15,6 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const listings_1 = require("./routes/listings");
 const events_1 = require("./routes/events");
 const createApp_1 = __importDefault(require("./app/createApp"));
+const swagger_ui_express_1 = __importDefault(require("swagger-ui-express"));
+const swagger_json_1 = __importDefault(require("./swagger/swagger.json"));
 const server = () => __awaiter(void 0, void 0, void 0, function* () {
     const app = (0, createApp_1.default)();
     const [eventsRouter, listingsRouter] = yield Promise.all([
@@ -23,6 +25,10 @@ const server = () => __awaiter(void 0, void 0, void 0, function* () {
     ]);
     app.use("/listings", listingsRouter);
     app.use("/events", eventsRouter);
+    app.use('/docs/endpoints', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
+    app.use((req, res) => {
+        res.status(404).json({ message: "Route not found." });
+    });
     app.listen(3000, () => {
         console.log("Online");
     });
