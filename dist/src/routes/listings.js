@@ -12,20 +12,24 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.initializeListingsRouter = void 0;
 const express_1 = __importDefault(require("express"));
 const ListingsController_1 = __importDefault(require("../controllers/ListingsController"));
-const router = express_1.default.Router();
-const controller = new ListingsController_1.default();
-const initPromise = controller.init();
-let isinitialized = false;
-router.use((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!isinitialized) {
-        yield initPromise;
-        isinitialized = true;
-    }
-    next();
-}));
-router.get("/read", controller.readRequest.bind(controller));
-router.post("/carousel", controller.CarouselRequest.bind(controller));
-router.post("/resource", controller.rescourceRequest.bind(controller));
-exports.default = router;
+const Database_1 = __importDefault(require("../config/Database"));
+const ListingsService_1 = __importDefault(require("../services/ListingsService"));
+const initializeListingsRouter = (customController) => __awaiter(void 0, void 0, void 0, function* () {
+    const router = express_1.default.Router();
+    const controller = customController !== null && customController !== void 0 ? customController : yield createDefaultController();
+    router.get("/read", controller.readRequest.bind(controller));
+    router.get("/resource/:id", controller.rescourceRequest.bind(controller));
+    console.log("Listings router initialized.");
+    return router;
+});
+exports.initializeListingsRouter = initializeListingsRouter;
+function createDefaultController() {
+    return __awaiter(this, void 0, void 0, function* () {
+        const pool = yield Database_1.default.getPool();
+        const controller = new ListingsController_1.default(new ListingsService_1.default(pool));
+        return controller;
+    });
+}

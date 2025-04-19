@@ -5,7 +5,7 @@ import EventsService from '../services/EventsService';
 import { eventsPool } from '../config/eventsdb';
 
 
-export const isinitializeEventsRouter = async(customController?: EventsController) => {
+export const initializeEventsRouter = async(customController?: EventsController) => {
     const router = express.Router();
     const controller = customController ?? await createDefaultController();
 

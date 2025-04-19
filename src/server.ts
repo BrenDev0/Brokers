@@ -1,5 +1,5 @@
-import listingsRouter from './routes/listings';
-import { isinitializeEventsRouter } from './routes/events';
+import { initializeListingsRouter } from './routes/listings';
+import { initializeEventsRouter } from './routes/events';
 import createApp from './app/createApp';
 
 
@@ -7,9 +7,11 @@ const server = async() => {
     const app = createApp();
 
     const [
-        eventsRouter
+        eventsRouter,
+        listingsRouter
     ] = await Promise.all([
-        isinitializeEventsRouter()
+        initializeEventsRouter(),
+        initializeListingsRouter()
     ])
 
     app.use("/listings", listingsRouter);

@@ -1,23 +1,25 @@
-import express, { NextFunction, Request, Response } from 'express';
+import express from 'express';
 import ListingsController from '../controllers/ListingsController';
+import databaseInstance from '../config/Database';
+import ListingsService from '../services/ListingsService';
 
-const router = express.Router();
-const controller = new ListingsController();
 
-const initPromise = controller.init();
-let isinitialized = false;
-router.use(async(req: Request, res: Response, next: NextFunction): Promise<any> => {
-    if(!isinitialized) {
-        await initPromise;
-        isinitialized = true;
-    }
+export const initializeListingsRouter = async(customController?: ListingsController) => {
+    const router = express.Router();
+    const controller = customController ?? await createDefaultController();
 
-    next();
-})
+    router.get("/read", controller.readRequest.bind(controller));
+    router.get("/resource/:id", controller.rescourceRequest.bind(controller));
 
-router.get("/read", controller.readRequest.bind(controller));
+    console.log("Listings router initialized.");
+    return router;
+}
 
-router.post("/carousel", controller.CarouselRequest.bind(controller));
-router.post("/resource", controller.rescourceRequest.bind(controller));
+async function createDefaultController(): Promise<ListingsController> {
+    const pool = await databaseInstance.getPool();
+    const controller = new ListingsController(
+        new ListingsService(pool)
+    )
 
-export default router;
+    return controller;
+}
