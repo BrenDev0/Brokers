@@ -2,7 +2,7 @@ import express from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
 import swaggerUi from 'swagger-ui-express';
-import { swaggerSpec } from '../../__docs__/swagger';
+import swaggerFile from '../../__docs__/swagger-output.json';
 
 const createApp =  (): express.Express => {
     const app = express();
@@ -21,7 +21,7 @@ const createApp =  (): express.Express => {
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
 
-    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
     return app;
 }

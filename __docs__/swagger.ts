@@ -1,18 +1,17 @@
-import swaggerJSDoc from 'swagger-jsdoc';
+// __docs__/swagger.ts
 
-export const swaggerSpec = swaggerJSDoc({
-  definition: {
-    openapi: '3.0.0',
-    info: {
-      title: 'Brokers',
-      version: '1.0.0',
-      description: '',
-    },
-    servers: [
-      {
-        url: 'https://brokers-production.up.railway.app',
-      },
-    ],
+import swaggerAutogen from 'swagger-autogen';
+
+const doc = {
+  info: {
+    title: 'My API',
+    description: 'Auto-generated Swagger docs for internal use',
   },
-  apis: ['./__docs__/*.ts'],
-});
+  host: 'localhost:3000',
+  schemes: ['http'],
+};
+
+const outputFile = './__docs__/swagger-output.json'; 
+const endpointsFiles = ['./src/app/createApp.ts'];
+
+swaggerAutogen()(outputFile, endpointsFiles, doc);
