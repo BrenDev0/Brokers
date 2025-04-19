@@ -1,8 +1,8 @@
 {
     "openapi": "3.0.0",
     "info": {
-        "title": "My API",
-        "description": "Auto-generated Swagger docs for internal use",
+        "title": "Brokers",
+        "description": "Endpoints",
         "version": "1.0.0"
     },
     "servers": [
