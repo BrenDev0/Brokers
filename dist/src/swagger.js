@@ -5,10 +5,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const swagger_autogen_1 = __importDefault(require("swagger-autogen"));
 const doc = {
-    openapi: '3.0.0',
     info: {
-        title: 'My API',
-        description: 'Auto-generated Swagger docs for internal use',
+        title: 'Brokers',
+        description: 'Endpoints',
         version: '1.0.0',
     },
     host: 'brokers-production.up.railway.app',
@@ -19,6 +18,6 @@ const doc = {
         securitySchemes: {},
     },
 };
-const outputFile = './__docs__/swagger-output.json';
-const endpointsFiles = ['../src/routes/events.ts'];
+const outputFile = '../swagger.json';
+const endpointsFiles = ['./src/routes/events.ts'];
 (0, swagger_autogen_1.default)()(outputFile, endpointsFiles, doc);

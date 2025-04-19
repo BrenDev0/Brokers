@@ -1,10 +1,9 @@
 import swaggerAutogen from 'swagger-autogen';
 
 const doc = {
-  openapi: '3.0.0',  
   info: {
-    title: 'My API',
-    description: 'Auto-generated Swagger docs for internal use',
+    title: 'Brokers',
+    description: 'Endpoints',
     version: '1.0.0',  
   },
   host: 'brokers-production.up.railway.app',
@@ -18,8 +17,8 @@ const doc = {
   },
 };
 
-const outputFile = './__docs__/swagger-output.json';  
-const endpointsFiles = ['../src/routes/events.ts'];    
+const outputFile = '../swagger.json';  
+const endpointsFiles = ['./src/routes/events.ts'];    
 
 
 swaggerAutogen()(outputFile, endpointsFiles, doc);
