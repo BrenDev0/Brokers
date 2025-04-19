@@ -57,23 +57,24 @@ export const isinitializeEventsRouter = async(customController?: EventsControlle
     router.post("/insert",
     // #swagger.tags = ['Events']
     // #swagger.description = 'Insert event to db'
-    // #swagger.requestBody = {
-    //   required: true,
-    //   content: {
-    //     "application/json": {
-    //       schema: {
-    //         type: "object",
-    //         properties: {
-    //           eventType: { type: "string" },
-    //           eventTarget: { type: "string" },
-    //           eventDocument: { type: "string" },
-    //           agent: { type: "string" }
-    //         },
-    //         required: ["eventType", "eventTarget", "eventDocument", "agent"]
-    //       }
-    //     }
-    //   }
-    // }
+    /*  #swagger.requestBody = {
+            required: true,
+            content: {
+                "application/json": {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            eventType: { type: "string", example: "click" },
+                            eventTarget: { type: "string", example: "more info button" },
+                            eventDocument: { type: "string", example: "home page" },
+                            agent: { type: "string", example: "agent1234" }
+                        },
+                        required: ["eventType", "eventTarget", "eventDocument", "agent"]
+                    }  
+                }
+            }
+        } 
+    */
         handleRequest((req, res) => controller.insertRequest(req, res))
     );
     
