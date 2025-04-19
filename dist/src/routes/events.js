@@ -29,10 +29,11 @@ const isinitializeEventsRouter = (customController) => __awaiter(void 0, void 0,
         }
         return handler(req, res);
     };
-    router.get("/read", handleRequest((req, res) => controller.readRequest(req, res)));
+    router.get("/read", 
     // #swagger.tags = ['Events']
     // #swagger.description = 'Get all events'
-    router.get("/collection/:agent", handleRequest((req, res) => controller.collectionRequest(req, res)));
+    handleRequest((req, res) => controller.readRequest(req, res)));
+    router.get("/collection/:agent", 
     // #swagger.tags = ['Events']
     // #swagger.description = 'Get a scollection of events by agent'
     // #swagger.parameters['agent'] = {
@@ -41,7 +42,8 @@ const isinitializeEventsRouter = (customController) => __awaiter(void 0, void 0,
     //   required: true,
     //   type: 'string'
     // }
-    router.get("/resource/:id", handleRequest((req, res) => controller.readRequest(req, res)));
+    handleRequest((req, res) => controller.collectionRequest(req, res)));
+    router.get("/resource/:id", 
     // #swagger.tags = ['Events']
     // #swagger.description = 'Get a specific event by ID'
     // #swagger.parameters['id'] = {
@@ -50,23 +52,29 @@ const isinitializeEventsRouter = (customController) => __awaiter(void 0, void 0,
     //   required: true,
     //   type: 'string'
     // }
-    router.post("/insert", handleRequest((req, res) => controller.insertRequest(req, res)));
+    handleRequest((req, res) => controller.readRequest(req, res)));
+    router.post("/insert", 
     // #swagger.tags = ['Events']
-    // #swagger.description = 'insert event to db'
+    // #swagger.description = 'Insert event to db'
     // #swagger.requestBody = {
     //   required: true,
     //   content: {
     //     "application/json": {
     //       schema: {
-    //         eventType: "click",
-    //         eventTarget: "more info button",
-    //         eventDocument: "home page" ,
-    //         agent: "agent identifier"
+    //         type: "object",
+    //         properties: {
+    //           eventType: { type: "string" },
+    //           eventTarget: { type: "string" },
+    //           eventDocument: { type: "string" },
+    //           agent: { type: "string" }
+    //         },
+    //         required: ["eventType", "eventTarget", "eventDocument", "agent"]
     //       }
     //     }
     //   }
     // }
-    router.delete("/delete/:col/:identifier", handleRequest((req, res) => controller.deleteRequest(req, res)));
+    handleRequest((req, res) => controller.insertRequest(req, res)));
+    router.delete("/delete/:col/:identifier", 
     // #swagger.tags = ['Events']
     // #swagger.description = 'Delete events by agent or document'
     // #swagger.parameters['col'] = {
@@ -80,7 +88,8 @@ const isinitializeEventsRouter = (customController) => __awaiter(void 0, void 0,
     //   description: 'identifier for the filter',
     //   required: true,
     //   type: 'string'
-    // }   
+    // }
+    handleRequest((req, res) => controller.deleteRequest(req, res)));
     console.log("Events router initialized.");
     return router;
 });

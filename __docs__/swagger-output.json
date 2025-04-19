@@ -13,7 +13,10 @@
   "paths": {
     "/read": {
       "get": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "description": "Get all events",
         "responses": {
           "503": {
             "description": "Service Unavailable"
@@ -23,7 +26,10 @@
     },
     "/collection/{agent}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "description": "Get a scollection of events by agent",
         "parameters": [
           {
             "name": "agent",
@@ -41,7 +47,10 @@
     },
     "/resource/{id}": {
       "get": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "description": "Get a specific event by ID",
         "parameters": [
           {
             "name": "id",
@@ -59,17 +68,24 @@
     },
     "/insert": {
       "post": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "description": "Insert event to db",
         "responses": {
           "503": {
             "description": "Service Unavailable"
           }
-        }
+        },
+        "requestBody": {}
       }
     },
     "/delete/{col}/{identifier}": {
       "delete": {
-        "description": "",
+        "tags": [
+          "Events"
+        ],
+        "description": "Delete events by agent or document",
         "parameters": [
           {
             "name": "col",
