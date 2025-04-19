@@ -10,7 +10,7 @@ export const swaggerSpec = swaggerJSDoc({
     },
     servers: [
       {
-        url: 'http://localhost:3000',
+        url: 'https://brokers-production.up.railway.app',
       },
     ],
   },

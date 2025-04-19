@@ -1,6 +1,6 @@
 /**
  * @openapi
- * /events/resource:
+ * /events/resource/:id:
  *   get:
  *     summary: Get all event resources
  *     tags:
@@ -13,18 +13,6 @@
  *             schema:
  *               type: object
  *               properties:
- *                 data:
- *                   type: array
- *                   items:
- *                     type: object
- *                     properties:
- *                       id:
- *                         type: string
- *                       name:
- *                         type: string
- *                       date:
- *                         type: string
- *                         format: date-time
  *       500:
  *         description: Internal server error
  *         content:

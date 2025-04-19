@@ -15,7 +15,7 @@ exports.swaggerSpec = (0, swagger_jsdoc_1.default)({
         },
         servers: [
             {
-                url: 'http://localhost:3000',
+                url: 'https://brokers-production.up.railway.app',
             },
         ],
     },

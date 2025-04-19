@@ -31,7 +31,7 @@ const isinitializeEventsRouter = (customController) => __awaiter(void 0, void 0,
     };
     router.get("/read", handleRequest((req, res) => controller.readRequest(req, res)));
     router.get("/collection/:agent", handleRequest((req, res) => controller.collectionRequest(req, res)));
-    router.get("/resource", handleRequest((req, res) => controller.readRequest(req, res)));
+    router.get("/resource/:id", handleRequest((req, res) => controller.readRequest(req, res)));
     router.post("/insert", handleRequest((req, res) => controller.insertRequest(req, res)));
     router.delete("/delete/:col/:identifier", handleRequest((req, res) => controller.deleteRequest(req, res)));
     console.log("Events router initialized.");
