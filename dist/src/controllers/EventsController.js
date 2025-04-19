@@ -45,14 +45,6 @@ class EventsController {
     }
     resourceRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
-            // #swagger.tags = ['Events']
-            // #swagger.description = 'Get a specific event by ID'
-            // #swagger.parameters['id'] = {
-            //   in: 'path',
-            //   description: 'The ID of the event',
-            //   required: true,
-            //   type: 'string'
-            // }
             try {
                 const eventId = Number(req.params.id);
                 if (!eventId) {

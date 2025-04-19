@@ -5,10 +5,91 @@
         "description": "Auto-generated Swagger docs for internal use",
         "version": "1.0.0"
     },
-    "host": "localhost:3000",
+    "host": "brokers-production.up.railway.app",
     "basePath": "/",
     "schemes": [
-        "http"
+        "https"
     ],
-    "paths": {}
+    "paths": {
+        "/read": {
+            "get": {
+                "description": "",
+                "responses": {
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/collection/{agent}": {
+            "get": {
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "agent",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/resource/{id}": {
+            "get": {
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/insert": {
+            "post": {
+                "description": "",
+                "responses": {
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        },
+        "/delete/{col}/{identifier}": {
+            "delete": {
+                "description": "",
+                "parameters": [
+                    {
+                        "name": "col",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "identifier",
+                        "in": "path",
+                        "required": true,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "503": {
+                        "description": "Service Unavailable"
+                    }
+                }
+            }
+        }
+    }
 }

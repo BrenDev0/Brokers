@@ -7,11 +7,11 @@ const doc = {
     title: 'My API',
     description: 'Auto-generated Swagger docs for internal use',
   },
-  host: 'localhost:3000',
-  schemes: ['http'],
+  host: 'brokers-production.up.railway.app',
+  schemes: ['https'],
 };
 
 const outputFile = './__docs__/swagger-output.json'; 
-const endpointsFiles = ['./src/app/createApp.ts'];
+const endpointsFiles = ['../src/routes/events.ts'];
 
 swaggerAutogen()(outputFile, endpointsFiles, doc);
