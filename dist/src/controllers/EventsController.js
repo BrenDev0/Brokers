@@ -8,44 +8,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 const responses_1 = require("../utils/responses");
-const promise_1 = __importDefault(require("mysql2/promise"));
 class EventsController {
-    constructor() {
-        this.pool = null;
+    constructor(eventsService) {
+        this.eventsService = eventsService;
         this.errorMessage = responses_1.errorMessage;
-    }
-    init() {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                if (this.pool === null) {
-                    this.pool = promise_1.default.createPool({
-                        host: process.env.MYSQLHOST,
-                        user: process.env.MYSQLUSER,
-                        password: process.env.MYSQLPASSWORD,
-                        database: process.env.MYSQL_DATABASE,
-                        port: 3306,
-                        ssl: {
-                            rejectUnauthorized: false,
-                        }
-                    });
-                }
-            }
-            catch (error) {
-                console.log(error);
-                throw error;
-            }
-        });
     }
     readRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [results] = yield this.pool.query("SELECT * FROM events");
-                return res.status(200).json({ "data": results });
+                const events = yield this.eventsService.read();
+                return res.status(200).json({ "data": events });
             }
             catch (error) {
                 console.log(error);
@@ -56,12 +30,12 @@ class EventsController {
     collectionRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { agent } = req.body;
+                const agent = req.params.agent;
                 if (!agent) {
                     return res.status(400).json({ "message": "All fields required." });
                 }
-                const [results] = yield this.pool.query("SELECT * FROM events WHERE agent = ?", [agent]);
-                return res.status(200).json({ "data": results });
+                const collection = yield this.eventsService.collection(agent);
+                return res.status(200).json({ "data": collection });
             }
             catch (error) {
                 console.log(error);
@@ -72,15 +46,18 @@ class EventsController {
     resourceRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { eventId } = req.body;
+                const eventId = Number(req.params.id);
                 if (!eventId) {
                     return res.status(400).json({ "message": "All fields required." });
                 }
-                const [results] = yield this.pool.query("SELECT * FROM events WHERE event_id = ?", [eventId]);
-                if (!results) {
+                if (isNaN(eventId)) {
+                    return res.status(400).json({ "message": "Invalid id." });
+                }
+                const resource = yield this.eventsService.resource(eventId);
+                if (!resource) {
                     return res.status(404).json({ "message": "Event not found." });
                 }
-                return res.status(200).json({ "data": results });
+                return res.status(200).json({ "data": resource });
             }
             catch (error) {
                 console.log(error);
@@ -92,17 +69,12 @@ class EventsController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const { eventType, eventTarget, eventDocument, agent } = req.body;
-                const sqlInsert = `
-                INSERT INTO events (
-                    event_type,
-                    event_target,
-                    event_document,
-                    agent
-                )
-                VALUES (?, ?, ?, ?)   
-            `;
-                const [results] = yield this.pool.query(sqlInsert, [eventType, eventTarget, eventDocument, agent]);
-                if (results.affectedRows === 0) {
+                if (!eventType || !eventTarget || !eventDocument || !agent) {
+                    return res.status(400).json({ "message": "All fields required." });
+                }
+                const event = this.eventsService.mapEvent(eventType, eventTarget, eventDocument, agent);
+                const eventCreated = yield this.eventsService.insert(event);
+                if (!eventCreated) {
                     return res.status(500).json({ "message": "Error creating event." });
                 }
                 return res.status(201).json({ "message": "Event created." });
@@ -116,27 +88,21 @@ class EventsController {
     deleteRequest(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const { col, identifyier } = req.body;
-                if (!col || !identifyier) {
+                const col = req.params.col;
+                const identifier = req.params.identifier;
+                if (!col || !identifier) {
                     return res.status(400).json({ "message": "All fields required." });
                 }
-                if (col === "agent") {
-                    const [rows] = yield this.pool.query("DELETE FROM events WHERE agent = ?", [identifyier]);
-                    if (rows.affectedRows === 0) {
-                        return res.status(404).json({ "message": "No records found for deletion" });
-                    }
-                    return res.status(200).json({ "message": "Delete successful" });
+                const allowedCols = ["agent", "document"];
+                if (!allowedCols.includes(col)) {
+                    return res.status(400).json({ "message": "Invalid column." });
                 }
-                else if (col === "eventDocument") {
-                    const [rows] = yield this.pool.query("DELETE FROM events WHERE event_document = ?", [identifyier]);
-                    if (rows.affectedRows === 0) {
-                        return res.status(404).json({ "message": "No records found for deletion" });
-                    }
-                    return res.status(200).json({ "message": "Delete successful" });
+                const formattedCol = col === "document" ? "event_document" : "agent";
+                const eventDeleted = yield this.eventsService.delete(formattedCol, identifier);
+                if (!eventDeleted) {
+                    return res.status(500).json({ "message": "Error deleting event." });
                 }
-                else {
-                    return res.status(400).json({ "message": "Invalid column" });
-                }
+                return res.status(200).json({ "message": "events deleted." });
             }
             catch (error) {
                 console.log(error);

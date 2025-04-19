@@ -12,22 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const express_1 = __importDefault(require("express"));
-const EventsController_1 = __importDefault(require("../controllers/EventsController"));
-const router = express_1.default.Router();
-const controller = new EventsController_1.default();
-const initPromise = controller.init();
-let isinitialized = false;
-router.use((req, res, next) => __awaiter(void 0, void 0, void 0, function* () {
-    if (!isinitialized) {
-        yield initPromise;
-        isinitialized = true;
-    }
-    next();
-}));
-router.get("/read", controller.readRequest.bind(controller));
-router.post("/collection", controller.collectionRequest.bind(controller));
-router.post("/resource", controller.resourceRequest.bind(controller));
-router.post("/insert", controller.insertRequest.bind(controller));
-router.delete("/delete", controller.deleteRequest.bind(controller));
-exports.default = router;
+const listings_1 = __importDefault(require("./routes/listings"));
+const events_1 = require("./routes/events");
+const createApp_1 = __importDefault(require("./app/createApp"));
+const server = () => __awaiter(void 0, void 0, void 0, function* () {
+    const app = (0, createApp_1.default)();
+    const [eventsRouter] = yield Promise.all([
+        (0, events_1.isinitializeEventsRouter)()
+    ]);
+    app.use("/listings", listings_1.default);
+    app.use("/events", eventsRouter);
+    app.listen(3000, () => {
+        console.log("Online");
+    });
+});
+server();

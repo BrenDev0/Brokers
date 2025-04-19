@@ -1,30 +1,21 @@
-import express from 'express';
 import listingsRouter from './routes/listings';
-import eventsRouter from './routes/events';
-import helmet from 'helmet';
-import rateLimit from 'express-rate-limit';
+import { isinitializeEventsRouter } from './routes/events';
+import createApp from './app/createApp';
 
-const app = express();
 
-app.use(helmet());
+const server = async() => {
+    const app = createApp();
 
-const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // Limit each IP to 100 requests per windowMs
-    message: "Too many requests, please try again later.",
-});
+    const [
+        eventsRouter
+    ] = await Promise.all([
+        isinitializeEventsRouter()
+    ])
 
-app.use(limiter);
-app.set('trust proxy', 1);
+    app.use("/listings", listingsRouter);
+    app.use("/events", eventsRouter);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-app.use("/listings", listingsRouter);
-app.use("/events", eventsRouter);
-
-const server = () => {
-    app.listen(3000, () =>{
+    app.listen(3000, () => {
         console.log("Online");
     })
 }
