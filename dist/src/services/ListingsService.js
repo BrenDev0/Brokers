@@ -16,7 +16,7 @@ class ListingsService {
     read() {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [result] = yield this.pool.execute("SELECT * FROM propiedad");
+                const [result] = yield this.pool.execute("SELECT * FROM propiedades");
                 return result;
             }
             catch (error) {
@@ -28,8 +28,8 @@ class ListingsService {
     resource(listingId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [result] = yield this.pool.execute("SELECT * FROM propiedad WHERE id_propiedad = ?", [listingId]);
-                return result || null;
+                const [rows] = yield this.pool.execute("SELECT * FROM propiedades WHERE propiedades_id = ?", [listingId]);
+                return rows.length > 0 ? rows[0] : null;
             }
             catch (error) {
                 console.log(error);

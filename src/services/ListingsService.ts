@@ -1,4 +1,5 @@
-import mysql, { QueryResult, Pool, ResultSetHeader } from 'mysql2/promise'
+import { QueryResult, Pool } from 'mysql2/promise'
+import { Listing, ListingResult } from '../interface/models';
 
 class ListingsService {
     private pool: Pool;
@@ -10,7 +11,7 @@ class ListingsService {
     async read(): Promise<QueryResult> {
         try {
             const [result] = await this.pool.execute(
-                "SELECT * FROM propiedad"
+                "SELECT * FROM propiedades"
             ) 
 
             return result;
@@ -20,14 +21,14 @@ class ListingsService {
         }
     }
 
-    async resource(listingId: number): Promise<QueryResult | null> {
+    async resource(listingId: number): Promise<Listing | null> {
         try {
-          const [result] = await this.pool.execute(
-            "SELECT * FROM propiedad WHERE id_propiedad = ?",
+          const [rows] = await this.pool.execute<ListingResult[]>(
+            "SELECT * FROM propiedades WHERE propiedades_id = ?",
             [ listingId ]
           )  
 
-          return result || null;
+          return rows.length > 0 ? rows[0] : null;
         } catch (error) {
             console.log(error);
             throw new Error("Error getting resource.")

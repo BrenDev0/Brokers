@@ -1,5 +1,5 @@
 import mysql, { QueryResult, Pool, ResultSetHeader } from 'mysql2/promise'
-import { Event } from '../interface/models';
+import { Event, EventResult } from '../interface/models';
 
 class EventsService {
     private pool: Pool;
@@ -35,17 +35,17 @@ class EventsService {
         }
     } 
     
-    async resource(eventId: number): Promise<QueryResult | null> {
+    async resource(eventId: number): Promise<Event | null> {
         try {
-            const [result] = await this.pool.query(
+            const [rows] = await this.pool.query<EventResult[]>(
                 "SELECT * FROM events WHERE event_id = ?",
                 [ eventId ]
             )
 
-            return result || null;
+            return rows.length > 0 ? rows[0] : null;
         } catch (error) {
            console.log(error);
-           throw new Error("Error gettign event.") 
+           throw new Error("Error getting event.") 
         }
     }
 

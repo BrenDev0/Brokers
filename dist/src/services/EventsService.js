@@ -40,12 +40,12 @@ class EventsService {
     resource(eventId) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
-                const [result] = yield this.pool.query("SELECT * FROM events WHERE event_id = ?", [eventId]);
-                return result || null;
+                const [rows] = yield this.pool.query("SELECT * FROM events WHERE event_id = ?", [eventId]);
+                return rows.length > 0 ? rows[0] : null;
             }
             catch (error) {
                 console.log(error);
-                throw new Error("Error gettign event.");
+                throw new Error("Error getting event.");
             }
         });
     }

@@ -48,10 +48,6 @@ class ListingsController {
         }
         
     }
-
-    filterData() {
-
-    }
 }
 
 export default ListingsController;

@@ -53,9 +53,7 @@ class EventsController {
                 return res.status(400).json({ "message": "Invalid id."})
             }
 
-
             const resource = await this.eventsService.resource(eventId);
-
 
             if(!resource) {
                 return res.status(404).json({"message": "Event not found."})
@@ -96,10 +94,6 @@ class EventsController {
             const col = req.params.col;
             const identifier = req.params.identifier;
 
-            if(!col || !identifier) {
-                return res.status(400).json({"message": "All fields required."})
-            }
-
             const allowedCols = ["agent", "document"];
             
             if(!allowedCols.includes(col)) {
@@ -110,7 +104,7 @@ class EventsController {
             const eventDeleted = await this.eventsService.delete(formattedCol, identifier);
 
             if(!eventDeleted) {
-                return res.status(500).json({ "message": "Error deleting event." })
+                return res.status(404).json({ "message": "Event not found." })
             }
 
             return res.status(200).json({ "message": "events deleted." })

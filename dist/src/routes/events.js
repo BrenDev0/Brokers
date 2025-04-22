@@ -22,8 +22,8 @@ const initializeEventsRouter = (customController) => __awaiter(void 0, void 0, v
     const controller = customController !== null && customController !== void 0 ? customController : yield createDefaultController();
     router.get("/read", controller.readRequest.bind(controller));
     router.get("/collection/:agent", controller.collectionRequest.bind(controller));
-    router.get("/resource/:id", controller.readRequest.bind(controller));
-    router.post("/insert", controller.insertRequest.bind(controller));
+    router.get("/resource/:id", controller.resourceRequest.bind(controller));
+    router.post("/create", controller.insertRequest.bind(controller));
     router.delete("/delete/:col/:identifier", controller.deleteRequest.bind(controller));
     console.log("Events router initialized.");
     return router;

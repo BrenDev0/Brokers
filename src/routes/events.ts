@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express from 'express';
 import EventsController from '../controllers/EventsController';
 import databaseInstance from '../config/Database';
 import EventsService from '../services/EventsService';
@@ -12,10 +12,10 @@ export const initializeEventsRouter = async(customController?: EventsController)
      
     router.get("/read", controller.readRequest.bind(controller));
     router.get("/collection/:agent", controller.collectionRequest.bind(controller));
-    router.get("/resource/:id", controller.readRequest.bind(controller));
+    router.get("/resource/:id", controller.resourceRequest.bind(controller));
    
     
-    router.post("/insert", controller.insertRequest.bind(controller));
+    router.post("/create", controller.insertRequest.bind(controller));
     
     router.delete("/delete/:col/:identifier", controller.deleteRequest.bind(controller));
        

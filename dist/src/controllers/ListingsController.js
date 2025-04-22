@@ -51,7 +51,5 @@ class ListingsController {
             }
         });
     }
-    filterData() {
-    }
 }
 exports.default = ListingsController;

@@ -31,7 +31,7 @@ router.get("/events/resource/:id",
     // #swagger.tags = ['Events']
     eventsController.readRequest.bind(eventsController)
 );
-router.post("/events/insert", 
+router.post("/events/create", 
     // #swagger.tags = ['Events']
     eventsController.insertRequest.bind(eventsController)
 );
