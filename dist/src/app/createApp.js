@@ -6,6 +6,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const helmet_1 = __importDefault(require("helmet"));
 const express_rate_limit_1 = __importDefault(require("express-rate-limit"));
+const verifyHMAC_1 = require("../middleware/verifyHMAC");
 const createApp = () => {
     const app = (0, express_1.default)();
     app.use((0, helmet_1.default)());
@@ -18,6 +19,18 @@ const createApp = () => {
     app.set('trust proxy', 1);
     app.use(express_1.default.json());
     app.use(express_1.default.urlencoded({ extended: true }));
+    // Apply HMAC conditionally
+    const hmacExcludedPaths = [];
+    if (process.env.NODE_ENV === 'production') {
+        const secret = process.env.HMAC_SECRET;
+        app.use((req, res, next) => {
+            const shouldSkip = hmacExcludedPaths.some(path => req.path.startsWith(path));
+            if (shouldSkip) {
+                return next();
+            }
+            return (0, verifyHMAC_1.verifyHMAC)(secret)(req, res, next);
+        });
+    }
     return app;
 };
 exports.default = createApp;

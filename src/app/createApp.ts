@@ -1,6 +1,7 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
+import { verifyHMAC } from '../middleware/verifyHMAC';
 
 const createApp =  (): express.Express => {
     const app = express();
@@ -18,6 +19,20 @@ const createApp =  (): express.Express => {
 
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
+
+    // Apply HMAC conditionally
+    const hmacExcludedPaths: string[] = []
+    if (process.env.NODE_ENV === 'production') {
+        const secret = process.env.HMAC_SECRET;
+        app.use((req: Request, res: Response, next: NextFunction) => {
+                const shouldSkip = hmacExcludedPaths.some(path => req.path.startsWith(path));
+    
+                if (shouldSkip) {
+                    return next();
+                }
+                return verifyHMAC(secret as string)(req, res, next);
+            });
+        }
 
     return app;
 }
