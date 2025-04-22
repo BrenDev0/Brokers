@@ -16,7 +16,7 @@
         "tags": [
           "Events"
         ],
-        "description": "",
+        "description": "Get all events",
         "responses": {
           "200": {
             "description": "OK"
@@ -32,7 +32,7 @@
         "tags": [
           "Events"
         ],
-        "description": "",
+        "description": "Get collectiion of events by agent",
         "parameters": [
           {
             "name": "agent",
@@ -59,7 +59,7 @@
         "tags": [
           "Events"
         ],
-        "description": "",
+        "description": "Get event by id",
         "parameters": [
           {
             "name": "id",
@@ -83,7 +83,7 @@
         "tags": [
           "Events"
         ],
-        "description": "",
+        "description": "Create an event",
         "parameters": [
           {
             "name": "body",
@@ -125,7 +125,7 @@
         "tags": [
           "Events"
         ],
-        "description": "",
+        "description": "Delete a collection of events by document or by agent, col= document or agent, identifier= identifies the doc or agent in col",
         "parameters": [
           {
             "name": "col",
@@ -161,7 +161,7 @@
         "tags": [
           "Listings"
         ],
-        "description": "",
+        "description": "Get all Listings",
         "responses": {
           "200": {
             "description": "OK"
@@ -177,7 +177,7 @@
         "tags": [
           "Listings"
         ],
-        "description": "",
+        "description": "Get listing by id",
         "parameters": [
           {
             "name": "id",

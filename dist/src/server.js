@@ -25,7 +25,7 @@ const server = () => __awaiter(void 0, void 0, void 0, function* () {
     ]);
     app.use("/listings", listingsRouter);
     app.use("/events", eventsRouter);
-    app.use('/docs/endpoints', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
+    process.env.NODE_ENV !== 'production' && app.use('/docs/endpoints', swagger_ui_express_1.default.serve, swagger_ui_express_1.default.setup(swagger_json_1.default));
     app.use((req, res) => {
         res.status(404).json({ message: "Route not found." });
     });

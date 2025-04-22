@@ -20,7 +20,7 @@ const server = async() => {
     app.use("/listings", listingsRouter);
     app.use("/events", eventsRouter);
 
-    app.use('/docs/endpoints', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+    process.env.NODE_ENV !== 'production' && app.use('/docs/endpoints', swaggerUi.serve, swaggerUi.setup(swaggerFile));
     
     app.use((req: Request, res: Response) => {
         res.status(404).json({ message: "Route not found." });
@@ -29,8 +29,6 @@ const server = async() => {
     app.listen(3000, () => {
         console.log("Online");
     })
-
-   
 }
 
 server();
